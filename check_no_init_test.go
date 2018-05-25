@@ -1,38 +1,76 @@
 package main
 
 import (
-	"path/filepath"
-	"strconv"
 	"testing"
 )
 
 func TestCheckNoInits(t *testing.T) {
-	cases := [][]string{
-		nil,
-		nil,
-		nil,
+	cases := []struct {
+		path         string
+		wantMessages []string
+	}{
 		{
-			"testdata/3/code_0.go:3 init function",
+			path:         "testdata/0",
+			wantMessages: nil,
 		},
 		{
-			"testdata/4/subpkg/code_0.go:3 init function",
+			path:         "testdata/1",
+			wantMessages: nil,
 		},
 		{
-			"testdata/5/code_0.go:3 init function",
-			"testdata/5/code_1.go:17 init function",
+			path:         "testdata/2",
+			wantMessages: nil,
+		},
+		{
+			path: "testdata/3",
+			wantMessages: []string{
+				"testdata/3/code_0.go:3 init function",
+			},
+		},
+		{
+			path: "testdata/4",
+			wantMessages: []string{
+				"testdata/4/code.go:5 init function",
+			},
+		},
+		{
+			path: "testdata/4/...",
+			wantMessages: []string{
+				"testdata/4/code.go:5 init function",
+				"testdata/4/subpkg/code_0.go:3 init function",
+			},
+		},
+		{
+			path: "testdata/5",
+			wantMessages: []string{
+				"testdata/5/code_0.go:3 init function",
+				"testdata/5/code_1.go:17 init function",
+			},
+		},
+		{
+			path:         ".",
+			wantMessages: nil,
+		},
+		{
+			path: "./...",
+			wantMessages: []string{
+				"testdata/3/code_0.go:3 init function",
+				"testdata/4/code.go:5 init function",
+				"testdata/4/subpkg/code_0.go:3 init function",
+				"testdata/5/code_0.go:3 init function",
+				"testdata/5/code_1.go:17 init function",
+			},
 		},
 	}
 
-	for i, wantMessages := range cases {
-		testdataName := strconv.FormatInt(int64(i), 10)
-		t.Run(testdataName, func(t *testing.T) {
-			path := filepath.Join("testdata", testdataName)
-			messages, err := checkNoInits(path)
+	for _, c := range cases {
+		t.Run(c.path, func(t *testing.T) {
+			messages, err := checkNoInits(c.path)
 			if err != nil {
 				t.Fatalf("got error %#v", err)
 			}
-			if !stringSlicesEqual(messages, wantMessages) {
-				t.Errorf("got %#v, want %#v", messages, wantMessages)
+			if !stringSlicesEqual(messages, c.wantMessages) {
+				t.Errorf("got %#v, want %#v", messages, c.wantMessages)
 			}
 		})
 	}

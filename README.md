@@ -28,5 +28,13 @@ gochecknoinits
 or
 
 ```
-gochecknoinits [path] [path] ...
+gochecknoinits ./...
 ```
+
+or
+
+```
+gochecknoinits [path] [path] [path] [etc]
+```
+
+Note: Paths are only inspected recursively if the Go `/...` recursive path suffix is appended to the path.
