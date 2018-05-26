@@ -14,6 +14,10 @@ func TestCheckNoInits(t *testing.T) {
 			wantMessages: nil,
 		},
 		{
+			path:         "testdata/0/code.go",
+			wantMessages: nil,
+		},
+		{
 			path:         "testdata/1",
 			wantMessages: nil,
 		},
@@ -45,6 +49,12 @@ func TestCheckNoInits(t *testing.T) {
 			wantMessages: []string{
 				"testdata/5/code_0.go:3 init function",
 				"testdata/5/code_1.go:17 init function",
+			},
+		},
+		{
+			path: "testdata/5/code_0.go",
+			wantMessages: []string{
+				"testdata/5/code_0.go:3 init function",
 			},
 		},
 		{
