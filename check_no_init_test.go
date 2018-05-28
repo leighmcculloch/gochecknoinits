@@ -1,12 +1,14 @@
 package main
 
 import (
+	"fmt"
 	"testing"
 )
 
 func TestCheckNoInits(t *testing.T) {
 	cases := []struct {
 		path         string
+		includeTests bool
 		wantMessages []string
 	}{
 		{
@@ -22,6 +24,11 @@ func TestCheckNoInits(t *testing.T) {
 			wantMessages: nil,
 		},
 		{
+			path:         "testdata/1",
+			includeTests: true,
+			wantMessages: nil,
+		},
+		{
 			path:         "testdata/2",
 			wantMessages: nil,
 		},
@@ -29,6 +36,14 @@ func TestCheckNoInits(t *testing.T) {
 			path: "testdata/3",
 			wantMessages: []string{
 				"testdata/3/code_0.go:3 init function",
+			},
+		},
+		{
+			path:         "testdata/3",
+			includeTests: true,
+			wantMessages: []string{
+				"testdata/3/code_0.go:3 init function",
+				"testdata/3/code_0_test.go:3 init function",
 			},
 		},
 		{
@@ -74,8 +89,9 @@ func TestCheckNoInits(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		t.Run(c.path, func(t *testing.T) {
-			messages, err := checkNoInits(c.path)
+		caseName := fmt.Sprintf("%s include tests: %t", c.path, c.includeTests)
+		t.Run(caseName, func(t *testing.T) {
+			messages, err := checkNoInits(c.path, c.includeTests)
 			if err != nil {
 				t.Fatalf("got error %#v", err)
 			}

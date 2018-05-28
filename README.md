@@ -25,16 +25,18 @@ go get 4d63.com/gochecknoinits
 gochecknoinits
 ```
 
-or
-
 ```
 gochecknoinits ./...
 ```
 
-or
-
 ```
 gochecknoinits [path] [path] [path] [etc]
+```
+
+Add `-t` to include tests.
+
+```
+gochecknoinits -t [path]
 ```
 
 Note: Paths are only inspected recursively if the Go `/...` recursive path suffix is appended to the path.

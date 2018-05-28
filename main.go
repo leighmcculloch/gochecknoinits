@@ -8,8 +8,10 @@ import (
 
 func main() {
 	flagPrintHelp := flag.Bool("h", false, "Print help")
+	flagIncludeTests := flag.Bool("t", false, "")
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, "Usage: gochecknoinits [path] [path] ...\n")
+		flag.PrintDefaults()
 	}
 	flag.Parse()
 
@@ -17,6 +19,8 @@ func main() {
 		flag.Usage()
 		return
 	}
+
+	includeTests := *flagIncludeTests
 
 	paths := flag.Args()
 	if len(paths) == 0 {
@@ -26,7 +30,7 @@ func main() {
 	exitWithError := false
 
 	for _, path := range paths {
-		messages, err := checkNoInits(path)
+		messages, err := checkNoInits(path, includeTests)
 		for _, message := range messages {
 			fmt.Fprintf(os.Stdout, "%s\n", message)
 			exitWithError = true
