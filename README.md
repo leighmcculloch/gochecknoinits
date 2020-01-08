@@ -8,7 +8,7 @@ Check that no inits functions are present in Go code.
 
 ## Why
 
-Init functions cause an import to have a side effects, and side effects are hard to test, reduce readability and increase the complexity of code.
+Init functions cause an import to have side effects, and side effects are hard to test, reduce readability and increase the complexity of code.
 
 https://peter.bourgon.org/blog/2017/06/09/theory-of-modern-go.html
 https://twitter.com/davecheney/status/871939730761547776
