@@ -1,7 +1,6 @@
 # gochecknoinits
 
 [![Build Status](https://img.shields.io/travis/leighmcculloch/gochecknoinits.svg)](https://travis-ci.org/leighmcculloch/gochecknoinits)
-[![Codecov](https://img.shields.io/codecov/c/github/leighmcculloch/gochecknoinits.svg)](https://codecov.io/gh/leighmcculloch/gochecknoinits)
 [![Go Report Card](https://goreportcard.com/badge/github.com/leighmcculloch/gochecknoinits)](https://goreportcard.com/report/github.com/leighmcculloch/gochecknoinits)
 
 Check that no inits functions are present in Go code.
